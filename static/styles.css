@@ -23,6 +23,28 @@ p {
   margin: 0;
 }
 
+.flash-messages {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem 0;
+}
+
+.flash {
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.flash-error {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.flash-message {
+  background: #e0f2fe;
+  color: #0369a1;
+}
+
 section {
   margin-top: 2rem;
 }

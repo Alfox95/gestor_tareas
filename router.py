@@ -1,6 +1,6 @@
 from datetime import date, datetime
 
-from flask import Blueprint, redirect, render_template, request, url_for
+from flask import Blueprint, flash, redirect, render_template, request, url_for
 
 from models import DIAS_POR_DEFECTO, Tarea, Usuario
 
@@ -44,6 +44,11 @@ def crear_usuario():
     global siguiente_usuario_id
     nombre = request.form.get("nombre_usuario", "").strip()
     if not nombre:
+        return redirect(url_for("tareas.index"))
+
+    nombre_normalizado = nombre.lower()
+    if any(u.nombre.lower() == nombre_normalizado for u in usuarios):
+        flash("El usuario ya existe.", "error")
         return redirect(url_for("tareas.index"))
 
     nuevo_usuario = Usuario(id=siguiente_usuario_id, nombre=nombre)
