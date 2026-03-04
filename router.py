@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, datetime
 
 from flask import Blueprint, redirect, render_template, request, url_for
 
@@ -56,6 +56,7 @@ def completar(tarea_id: int):
     for tarea in tareas:
         if tarea.id == tarea_id:
             tarea.completo = True
+            tarea.fecha_realizada = datetime.now()
             break
     return redirect(url_for("tareas.index"))
 

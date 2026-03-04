@@ -12,6 +12,7 @@ class Tarea:
     prioridad: int = 3  # 1 = muy baja, 5 = urgente
     fecha_max: Optional[date] = None
     fecha_creado: datetime = field(default_factory=datetime.now)
+    fecha_realizada: Optional[datetime] = None
     tipo_tarea: Optional[str] = None
     completo: bool = False
 

@@ -68,7 +68,7 @@ button:hover {
 
 .tarea {
   display: flex;
-  align-items: stretch;
+  align-items: center;
   justify-content: space-between;
   padding: 0.5rem 0.75rem;
   border-radius: 0.5rem;
@@ -87,10 +87,15 @@ button:hover {
 
 .badge {
   font-size: 0.75rem;
-  padding: 0.1rem 0.4rem;
+  padding: 0.1rem 0.7rem;
   border-radius: 999px;
   background: #dcfce7;
   color: #166534;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 3rem;
+  text-align: center;
 }
 
 .tarea-info-principal {
@@ -179,21 +184,21 @@ button:hover {
   color: #111827;
 }
 
-/* Escala de tiempo: azul muy claro (+10 días) a rojo (0 o menos) */
+/* Escala de tiempo: azul muy claro (>10 días) a rojo (0 o menos) */
 .tiempo-muy-bajo {
-  background: #dbeafe; /* >10 días */
+  background: #e0f2fe; /* azul muy claro */
 }
 
 .tiempo-bajo {
-  background: linear-gradient(90deg, #dbeafe, #fee2e2); /* 6-10 días */
+  background: #bfdbfe; /* azul suave 6-10 días */
 }
 
 .tiempo-medio {
-  background: linear-gradient(90deg, #bfdbfe, #fecaca); /* 3-5 días */
+  background: #fecaca; /* tono intermedio 3-5 días */
 }
 
 .tiempo-alto {
-  background: #fecaca; /* 1-2 días */
+  background: #fca5a5; /* rojo más intenso 1-2 días */
 }
 
 .tiempo-critico {

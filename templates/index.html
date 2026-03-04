@@ -78,6 +78,14 @@
                           Sin fecha
                         {% endif %}
                       </span>
+                      <span class="fecha-item">
+                        Realizada:
+                        {% if tarea.fecha_realizada %}
+                          {{ tarea.fecha_realizada.strftime('%d/%m/%Y') }}
+                        {% else %}
+                          -
+                        {% endif %}
+                      </span>
                     </div>
 
                     <div class="tarea-tiempo">
