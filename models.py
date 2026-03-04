@@ -6,6 +6,16 @@ from typing import Optional
 
 
 @dataclass
+class Usuario:
+    id: int
+    nombre: str
+
+
+# Días que se usan cuando la tarea no tiene fecha límite (para no olvidarla en la lista)
+DIAS_POR_DEFECTO = 60
+
+
+@dataclass
 class Tarea:
     id: int
     descripcion: str
@@ -13,6 +23,8 @@ class Tarea:
     fecha_max: Optional[date] = None
     fecha_creado: datetime = field(default_factory=datetime.now)
     fecha_realizada: Optional[datetime] = None
+    creador: Optional[Usuario] = None
+    completador: Optional[Usuario] = None
     tipo_tarea: Optional[str] = None
     completo: bool = False
 
@@ -21,6 +33,11 @@ class Tarea:
             return None
         hoy = date.today()
         return (self.fecha_max - hoy).days
+
+    def dias_restantes_para_ordenar(self) -> int:
+        """Para ordenar y mostrar: sin fecha límite = DIAS_POR_DEFECTO (60)."""
+        d = self.dias_restantes()
+        return DIAS_POR_DEFECTO if d is None else d
 
     def toggle_completo(self) -> None:
         self.completo = not self.completo
