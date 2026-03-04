@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <title>Gestor de tareas - Flask</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+  </head>
+  <body>
+    <main class="container">
+      <h1>Gestor de tareas</h1>
+
+      <section>
+        <h2>Nueva tarea</h2>
+        <form action="{{ url_for('agregar') }}" method="post">
+          <label for="texto">Descripción</label>
+          <input
+            type="text"
+            id="texto"
+            name="texto"
+            placeholder="Escribe una nueva tarea..."
+            required
+          />
+          <button type="submit">Agregar</button>
+        </form>
+      </section>
+
+      <section>
+        <h2>Lista de tareas</h2>
+        {% if tareas %}
+          <ul class="lista-tareas">
+            {% for tarea in tareas %}
+              <li class="tarea{% if tarea.hecho %} tarea--hecha{% endif %}">
+                <span>{{ tarea.texto }}</span>
+                {% if not tarea.hecho %}
+                  <form
+                    action="{{ url_for('completar', tarea_id=tarea.id) }}"
+                    method="post"
+                    class="form-inline"
+                  >
+                    <button type="submit">Completar</button>
+                  </form>
+                {% else %}
+                  <span class="badge">Hecha</span>
+                {% endif %}
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p>No hay tareas todavía. ¡Agrega la primera!</p>
+        {% endif %}
+      </section>
+    </main>
+  </body>
+  </html>
+
