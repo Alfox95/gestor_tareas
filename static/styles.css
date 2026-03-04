@@ -68,7 +68,7 @@ button:hover {
 
 .tarea {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: space-between;
   padding: 0.5rem 0.75rem;
   border-radius: 0.5rem;
@@ -92,5 +92,118 @@ button:hover {
   background: #dcfce7;
   color: #166534;
 }
+
+.tarea-info-principal {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.tarea-descripcion {
+  font-weight: 500;
+}
+
+.tarea-metas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1rem;
+  font-size: 0.8rem;
+  color: #4b5563;
+}
+
+.tarea-prioridad {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.prioridad-badge {
+  width: 1.6rem;
+  height: 1.6rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.4rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.prioridad-texto {
+  min-width: 4rem;
+}
+
+/* 1 = muy baja (verde claro) ... 5 = urgente (rojo oscuro) */
+.prioridad-1 {
+  background: #bbf7d0;
+}
+
+.prioridad-2 {
+  background: #a7f3d0;
+}
+
+.prioridad-3 {
+  background: #facc15;
+}
+
+.prioridad-4 {
+  background: #fb923c;
+}
+
+.prioridad-5 {
+  background: #b91c1c;
+  color: #f9fafb;
+}
+
+.tarea-fechas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.8rem;
+}
+
+.fecha-item {
+  padding: 0.1rem 0.4rem;
+  border-radius: 999px;
+  background: #f3f4f6;
+}
+
+.tarea-tiempo {
+  display: flex;
+  align-items: center;
+}
+
+.tiempo-badge {
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  color: #111827;
+}
+
+/* Escala de tiempo: azul muy claro (+10 días) a rojo (0 o menos) */
+.tiempo-muy-bajo {
+  background: #dbeafe; /* >10 días */
+}
+
+.tiempo-bajo {
+  background: linear-gradient(90deg, #dbeafe, #fee2e2); /* 6-10 días */
+}
+
+.tiempo-medio {
+  background: linear-gradient(90deg, #bfdbfe, #fecaca); /* 3-5 días */
+}
+
+.tiempo-alto {
+  background: #fecaca; /* 1-2 días */
+}
+
+.tiempo-critico {
+  background: #b91c1c;
+  color: #f9fafb; /* 0 o menos */
+}
+
+.tiempo-sin-fecha {
+  background: #e5e7eb;
+}
+
 
 
