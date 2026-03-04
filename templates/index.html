@@ -11,7 +11,7 @@
 
       <section>
         <h2>Nueva tarea</h2>
-        <form action="{{ url_for('agregar') }}" method="post">
+        <form action="{{ url_for('tareas.agregar') }}" method="post">
           <label for="texto">Descripción</label>
           <input
             type="text"
@@ -29,11 +29,11 @@
         {% if tareas %}
           <ul class="lista-tareas">
             {% for tarea in tareas %}
-              <li class="tarea{% if tarea.hecho %} tarea--hecha{% endif %}">
-                <span>{{ tarea.texto }}</span>
-                {% if not tarea.hecho %}
+              <li class="tarea{% if tarea.completo %} tarea--hecha{% endif %}">
+                <span>{{ tarea.descripcion }}</span>
+                {% if not tarea.completo %}
                   <form
-                    action="{{ url_for('completar', tarea_id=tarea.id) }}"
+                    action="{{ url_for('tareas.completar', tarea_id=tarea.id) }}"
                     method="post"
                     class="form-inline"
                   >
