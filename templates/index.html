@@ -20,6 +20,18 @@
             placeholder="Escribe una nueva tarea..."
             required
           />
+          <label for="prioridad">Prioridad</label>
+          <select id="prioridad" name="prioridad">
+            <option value="5">5 - Urgente</option>
+            <option value="4">4 - Alta</option>
+            <option value="3" selected>3 - Media</option>
+            <option value="2">2 - Baja</option>
+            <option value="1">1 - Muy baja</option>
+          </select>
+
+          <label for="fecha_max">Fecha máxima</label>
+          <input type="date" id="fecha_max" name="fecha_max" />
+
           <button type="submit">Agregar</button>
         </form>
       </section>
@@ -30,7 +42,69 @@
           <ul class="lista-tareas">
             {% for tarea in tareas %}
               <li class="tarea{% if tarea.completo %} tarea--hecha{% endif %}">
-                <span>{{ tarea.descripcion }}</span>
+                <div class="tarea-info-principal">
+                  <span class="tarea-descripcion">{{ tarea.descripcion }}</span>
+
+                  <div class="tarea-metas">
+                    <div class="tarea-prioridad">
+                      <span class="prioridad-badge prioridad-{{ tarea.prioridad }}">
+                        {{ tarea.prioridad }}
+                      </span>
+                      <span class="prioridad-texto">
+                        {% if tarea.prioridad == 5 %}
+                          Urgente
+                        {% elif tarea.prioridad == 4 %}
+                          Alta
+                        {% elif tarea.prioridad == 3 %}
+                          Media
+                        {% elif tarea.prioridad == 2 %}
+                          Baja
+                        {% else %}
+                          Muy baja
+                        {% endif %}
+                      </span>
+                    </div>
+
+                    <div class="tarea-fechas">
+                      <span class="fecha-item">
+                        Creada:
+                        {{ tarea.fecha_creado.strftime('%d/%m/%Y') }}
+                      </span>
+                      <span class="fecha-item">
+                        Entrega:
+                        {% if tarea.fecha_max %}
+                          {{ tarea.fecha_max.strftime('%d/%m/%Y') }}
+                        {% else %}
+                          Sin fecha
+                        {% endif %}
+                      </span>
+                    </div>
+
+                    <div class="tarea-tiempo">
+                      {% set dias = tarea.dias_restantes() %}
+                      {% if dias is not none %}
+                        {% if dias <= 0 %}
+                          {% set clase_tiempo = "tiempo-critico" %}
+                        {% elif dias <= 2 %}
+                          {% set clase_tiempo = "tiempo-alto" %}
+                        {% elif dias <= 5 %}
+                          {% set clase_tiempo = "tiempo-medio" %}
+                        {% elif dias <= 10 %}
+                          {% set clase_tiempo = "tiempo-bajo" %}
+                        {% else %}
+                          {% set clase_tiempo = "tiempo-muy-bajo" %}
+                        {% endif %}
+                        <span class="tiempo-badge {{ clase_tiempo }}">
+                          {{ dias }} días restantes
+                        </span>
+                      {% else %}
+                        <span class="tiempo-badge tiempo-sin-fecha">
+                          Sin fecha límite
+                        </span>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
                 {% if not tarea.completo %}
                   <form
                     action="{{ url_for('tareas.completar', tarea_id=tarea.id) }}"
