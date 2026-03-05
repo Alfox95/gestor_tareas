@@ -25,3 +25,6 @@ Thumbs.db
 .coverage
 htmlcov/
 
+# Datos locales (persistencia JSON)
+data.json
+

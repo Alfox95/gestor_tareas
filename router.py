@@ -1,8 +1,10 @@
+from pathlib import Path
 from datetime import date, datetime
 
-from flask import Blueprint, flash, redirect, render_template, request, url_for
+from flask import Blueprint, current_app, flash, redirect, render_template, request, url_for
 
 from models import DIAS_POR_DEFECTO, Tarea, Usuario
+from storage import load_state, save_state
 
 bp = Blueprint("tareas", __name__)
 
@@ -11,6 +13,39 @@ tareas: list[Tarea] = []
 usuarios: list[Usuario] = []
 siguiente_id = 1
 siguiente_usuario_id = 1
+
+
+def reset_state() -> None:
+    global tareas, usuarios, siguiente_id, siguiente_usuario_id
+    tareas = []
+    usuarios = []
+    siguiente_id = 1
+    siguiente_usuario_id = 1
+
+
+def _data_file() -> Path:
+    p = current_app.config.get("DATA_FILE")
+    return Path(p) if p else Path("data.json")
+
+
+def init_app() -> None:
+    """Carga el estado desde JSON al iniciar la app."""
+    global tareas, usuarios, siguiente_id, siguiente_usuario_id
+    u, t, next_u, next_t = load_state(path=_data_file())
+    usuarios = u
+    tareas = t
+    siguiente_usuario_id = next_u
+    siguiente_id = next_t
+
+
+def persist() -> None:
+    save_state(
+        path=_data_file(),
+        usuarios=usuarios,
+        tareas=tareas,
+        siguiente_usuario_id=siguiente_usuario_id,
+        siguiente_tarea_id=siguiente_id,
+    )
 
 
 @bp.route("/")
@@ -54,6 +89,7 @@ def crear_usuario():
     nuevo_usuario = Usuario(id=siguiente_usuario_id, nombre=nombre)
     usuarios.append(nuevo_usuario)
     siguiente_usuario_id += 1
+    persist()
 
     return redirect(url_for("tareas.index"))
 
@@ -99,6 +135,7 @@ def agregar():
     )
     tareas.append(nueva_tarea)
     siguiente_id += 1
+    persist()
 
     return redirect(url_for("tareas.index"))
 
@@ -120,6 +157,7 @@ def completar(tarea_id: int):
             tarea.fecha_realizada = datetime.now()
             tarea.completador = completador
             break
+    persist()
     return redirect(url_for("tareas.index"))
 
 
@@ -129,6 +167,7 @@ def subir_prioridad(tarea_id: int):
         if tarea.id == tarea_id and not tarea.completo and tarea.prioridad < 5:
             tarea.editar_prioridad(tarea.prioridad + 1)
             break
+    persist()
     return redirect(url_for("tareas.index"))
 
 
@@ -138,6 +177,7 @@ def bajar_prioridad(tarea_id: int):
         if tarea.id == tarea_id and not tarea.completo and tarea.prioridad > 1:
             tarea.editar_prioridad(tarea.prioridad - 1)
             break
+    persist()
     return redirect(url_for("tareas.index"))
 
 
@@ -148,5 +188,6 @@ def reabrir(tarea_id: int):
             tarea.completo = False
             # fecha_realizada y completador se mantienen como historial
             break
+    persist()
     return redirect(url_for("tareas.index"))
 
